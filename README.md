@@ -1,6 +1,6 @@
 # click-clock
 
-Lit-Element web component description
+Lit-Element web component countdown clock
 
 ## Demo
 
