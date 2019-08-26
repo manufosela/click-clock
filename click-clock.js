@@ -1,10 +1,10 @@
-import { LitElement, html, css } from 'lit-element';
+import { LitElement, html, css, unsafeCSS } from 'lit-element';
 
 /**
  * `click-clock`
  * ClickClock
  *
- * @customElement
+ * @customElement click-clock
  * @polymer
  * @litElement
  * @demo demo/index.html
@@ -19,7 +19,8 @@ class ClickClock extends LitElement {
     return {
       numDigits: { type: Number, attribute: 'num-digits' },
       maxValue: { type: Number, attribute: 'max-value' },
-      minValue: { type: Number, attribute: 'min-value' }
+      minValue: { type: Number, attribute: 'min-value' },
+      dotSize: { type: String, attribyte: 'dot-size' }
     };
   }
 
@@ -28,6 +29,7 @@ class ClickClock extends LitElement {
       :host {
         display: block;
         background-color: #e8635e;
+        --dot-size: 16px;
       }
       .clock {
         font-size: 0;
@@ -36,7 +38,7 @@ class ClickClock extends LitElement {
       }
       .clock .digit {
         display: inline-block;
-        width: 88px;
+        width: calc(var(--dot-size) * 4 + 16px);
         margin: 10px;
         transform: skewX(-2deg);
       }
@@ -47,8 +49,8 @@ class ClickClock extends LitElement {
         transition: opacity 100ms ease;
       }
       .clock .digit .cell {
-        width: 18px;
-        height: 18px;
+        width: var(--dot-size);
+        height: var(--dot-size);
         margin: 2px;
         background-color: white;
         border-radius: 2px;
@@ -66,120 +68,122 @@ class ClickClock extends LitElement {
     this.numDigits = 3;
     this.maxValue = 999;
     this.minValue = 0;
+    this.dotSize = '16px';
     this.now = new Date();
-    this.grad = new Date(this.now.getTime() + 120 * 1000); // 120 segundos
     this.digit = new Array(this.numDigits);
 
     this.display = {
       0: [
-        true, true, true, true,
-        true, false, false, true,
-        true, false, false, true,
-        true, false, false, true,
-        true, false, false, true,
-        true, false, false, true,
-        true, true, true, true
+        1, 1, 1, 1,
+        1, 0, 0, 1,
+        1, 0, 0, 1,
+        1, 0, 0, 1,
+        1, 0, 0, 1,
+        1, 0, 0, 1,
+        1, 1, 1, 1
       ],
       1: [
-        false, false, false, true,
-        false, false, false, true,
-        false, false, false, true,
-        false, false, false, true,
-        false, false, false, true,
-        false, false, false, true,
-        false, false, false, true
+        0, 0, 0, 1,
+        0, 0, 0, 1,
+        0, 0, 0, 1,
+        0, 0, 0, 1,
+        0, 0, 0, 1,
+        0, 0, 0, 1,
+        0, 0, 0, 1
       ],
       2: [
-        true, true, true, true,
-        false, false, false, true,
-        false, false, false, true,
-        true, true, true, true,
-        true, false, false, false,
-        true, false, false, false,
-        true, true, true, true
+        1, 1, 1, 1,
+        0, 0, 0, 1,
+        0, 0, 0, 1,
+        1, 1, 1, 1,
+        1, 0, 0, 0,
+        1, 0, 0, 0,
+        1, 1, 1, 1
       ],
       3: [
-        true, true, true, true,
-        false, false, false, true,
-        false, false, false, true,
-        false, true, true, true,
-        false, false, false, true,
-        false, false, false, true,
-        true, true, true, true
+        1, 1, 1, 1,
+        0, 0, 0, 1,
+        0, 0, 0, 1,
+        0, 1, 1, 1,
+        0, 0, 0, 1,
+        0, 0, 0, 1,
+        1, 1, 1, 1
       ],
       4: [
-        true, false, false, false,
-        true, false, false, true,
-        true, false, false, true,
-        true, true, true, true,
-        false, false, false, true,
-        false, false, false, true,
-        false, false, false, true
+        1, 0, 0, 0,
+        1, 0, 0, 1,
+        1, 0, 0, 1,
+        1, 1, 1, 1,
+        0, 0, 0, 1,
+        0, 0, 0, 1,
+        0, 0, 0, 1
       ],
       5: [
-        true, true, true, true,
-        true, false, false, false,
-        true, false, false, false,
-        true, true, true, true,
-        false, false, false, true,
-        false, false, false, true,
-        true, true, true, true
+        1, 1, 1, 1,
+        1, 0, 0, 0,
+        1, 0, 0, 0,
+        1, 1, 1, 1,
+        0, 0, 0, 1,
+        0, 0, 0, 1,
+        1, 1, 1, 1
       ],
       6: [
-        true, true, true, true,
-        true, false, false, false,
-        true, false, false, false,
-        true, true, true, true,
-        true, false, false, true,
-        true, false, false, true,
-        true, true, true, true
+        1, 1, 1, 1,
+        1, 0, 0, 0,
+        1, 0, 0, 0,
+        1, 1, 1, 1,
+        1, 0, 0, 1,
+        1, 0, 0, 1,
+        1, 1, 1, 1
       ],
       7: [
-        true, true, true, true,
-        true, false, false, true,
-        false, false, false, true,
-        false, false, false, true,
-        false, false, false, true,
-        false, false, false, true,
-        false, false, false, true
+        1, 1, 1, 1,
+        1, 0, 0, 1,
+        0, 0, 0, 1,
+        0, 0, 0, 1,
+        0, 0, 0, 1,
+        0, 0, 0, 1,
+        0, 0, 0, 1
       ],
       8: [
-        true, true, true, true,
-        true, false, false, true,
-        true, false, false, true,
-        true, true, true, true,
-        true, false, false, true,
-        true, false, false, true,
-        true, true, true, true
+        1, 1, 1, 1,
+        1, 0, 0, 1,
+        1, 0, 0, 1,
+        1, 1, 1, 1,
+        1, 0, 0, 1,
+        1, 0, 0, 1,
+        1, 1, 1, 1
       ],
       9: [
-        true, true, true, true,
-        true, false, false, true,
-        true, false, false, true,
-        true, true, true, true,
-        false, false, false, true,
-        false, false, false, true,
-        false, false, false, true
+        1, 1, 1, 1,
+        1, 0, 0, 1,
+        1, 0, 0, 1,
+        1, 1, 1, 1,
+        0, 0, 0, 1,
+        0, 0, 0, 1,
+        0, 0, 0, 1
       ]
     };
   }
 
-  connectedCallback() {
-    //Array.apply(null, {length: this.numslides}).map(Number.call, Number);
-    for (let i = 0; i < this.numDigits; i++) {
-      this.digit[i] = this.shadowRoot.querySelector('#digit-' + i);
+  firstUpdated() {
+    this.grad = new Date(this.now.getTime() + this.maxValue * 1000);
+    for (let i = 0; i <= this.numDigits; i++) {
+      this.digit[i + 2] = this.shadowRoot.querySelector('#digit-' + (i + 2));
     }
-
-    requestAnimationFrame(this.start);
+    requestAnimationFrame(this.start.bind(this));
   }
 
   _renderDigit(container, number) {
     let matrix = this.display[number];
 
-    let children = container.children();
+    let children = container.children;
     let len = matrix.length;
     for (var i = 0; i < len; i++) {
-      children.eq(i).toggleClass('on', matrix[i]);
+      children[i].classList.remove('on');
+      if (matrix[i]) {
+        children[i].classList.add('on');
+      }
     }
   }
 
@@ -188,12 +192,12 @@ class ClickClock extends LitElement {
     let diff = String(this.grad.getTime() - this.now.getTime());
     let len = diff.length;
 
-    this._renderDigit(digit2, Number(diff.charAt(len - 3)));
-    this._renderDigit(digit3, Number(diff.charAt(len - 4)));
-    this._renderDigit(digit4, Number(diff.charAt(len - 5)));
-    this._renderDigit(digit5, Number(diff.charAt(len - 6)));
+    this._renderDigit(this.digit[2], Number(diff.charAt(len - 3)));
+    this._renderDigit(this.digit[3], Number(diff.charAt(len - 4)));
+    this._renderDigit(this.digit[4], Number(diff.charAt(len - 5)));
+    this._renderDigit(this.digit[5], Number(diff.charAt(len - 6)));
 
-    requestAnimationFrame(start);
+    requestAnimationFrame(this.start.bind(this));
   }
 
   render() {
@@ -321,6 +325,7 @@ class ClickClock extends LitElement {
         </div>
 
       </section>
+      <!--<button>Start</button><button>Pause</button><button>Stop</button>-->
     `;
   }
 }
