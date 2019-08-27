@@ -60,6 +60,7 @@ class ClickClock extends LitElement {
       .clock .digit .cell.on {
         opacity: 1;
       }
+      .dot { position:relative; top:-12px; left:60px; background:#FF0; z-index:10; width:var(--dot-size); height:var(--dot-size); }
     `;
   }
 
@@ -292,6 +293,7 @@ class ClickClock extends LitElement {
           <div class="cell"></div>
           <div class="cell"></div>
           <div class="cell"></div>
+          <div class="dot">O</div>
         </div>
         <div id="digit-2" class="digit">
           <div class="cell"></div>
