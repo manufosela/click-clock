@@ -60,7 +60,7 @@ class ClickClock extends LitElement {
       .clock .digit .cell.on {
         opacity: 1;
       }
-      .dot { position:relative; top:-12px; left:60px; background:#FF0; z-index:10; width:var(--dot-size); height:var(--dot-size); }
+      .dot { position:relative; background:#FF0; z-index:10; width:var(--dot-size); height:var(--dot-size); }
     `;
   }
 
@@ -202,6 +202,8 @@ class ClickClock extends LitElement {
   }
 
   render() {
+    let dotDecTop = -(parseInt(this.dotSize) + 2);
+    let dotDecLeft = (parseInt(this.dotSize) * 5) + 3;
     return html`
       <section class="clock">
       <div id="digit-5" class="digit second">
@@ -293,7 +295,7 @@ class ClickClock extends LitElement {
           <div class="cell"></div>
           <div class="cell"></div>
           <div class="cell"></div>
-          <div class="dot">O</div>
+          <div class="dot" style="top:${dotDecTop}px; left:${dotDecLeft}px;">O</div>
         </div>
         <div id="digit-2" class="digit">
           <div class="cell"></div>
